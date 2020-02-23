@@ -3,16 +3,17 @@
   import NavLink from "./components/NavLink.svelte";
   import Editor from "./routes/Editor.svelte";
   import Notes from "./routes/Notes.svelte";
-  import { updateNotes } from './db.js'
+  import Note from "./routes/Note.svelte";
+  import { updateNotes, notes } from './db.js'
   import { onMount } from 'svelte'
 
   // Used for SSR. A falsy value is ignored by the Router.
   export let url = "";
 
-  let notes = []
+  $: console.log('NOTES', notes)
 
   onMount(async () => {
-    notes = await updateNotes()
+    await updateNotes()
   })
 </script>
 
@@ -24,5 +25,6 @@
   <div>
     <Route path="/" component="{Editor}" />
     <Route path="notes" component="{Notes}" notes={notes} />
+    <Route path="/notes/:noteId" component="{Note}" notes={notes} />
   </div>
 </Router>
