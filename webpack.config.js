@@ -47,5 +47,9 @@ module.exports = {
 			filename: '[name].css'
 		})
 	],
+	devServer: {
+		historyApiFallback: true,
+    port: 9000
+  },
 	devtool: prod ? false: 'source-map'
 };
