@@ -1,5 +1,12 @@
 <script>
     import { notes } from '../db.js'
+    import { get, derived } from 'svelte/store'
+
+    let query = ''
+
+    $: searchResults = query 
+        ? derived(notes, $notes => $notes.filter(note => note.text.search(query) >= 0))
+        : notes
 </script>
 
 <style>
@@ -12,6 +19,8 @@
 
 <h1>{$notes.length} Notes</h1>
 
-{#each $notes as note}
+<input bind:value={query} placeholder="search"/>
+
+{#each $searchResults as note}
     <p>{note.text}</p>
 {/each}
